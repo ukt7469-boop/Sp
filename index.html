@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prachi ❤️ Love Quiz</title>
+    <style>
+        body { margin: 0; padding: 0; text-align: center; font-family: 'Arial', sans-serif; background: black; color: white; overflow: hidden; height: 100vh; display: flex; align-items: center; justify-content: center; }
+        .star { position: absolute; width: 2px; height: 2px; background: white; border-radius: 50%; animation: twinkle 2s infinite alternate; }
+        @keyframes twinkle { from { opacity: 0.2; } to { opacity: 1; } }
+        #quiz-box, #proposal-box { display: none; position: relative; z-index: 10; padding: 25px; background: rgba(30, 0, 40, 0.7); border-radius: 20px; backdrop-filter: blur(10px); border: 2px solid #e04dd0; width: 85%; max-width: 400px; box-shadow: 0 0 30px rgba(224, 77, 208, 0.4); }
+        .glow { font-size: 45px; color: #ff00ff; text-shadow: 0 0 10px #ff00ff; animation: glow-anim 1.5s infinite alternate; }
+        @keyframes glow-anim { from { text-shadow: 0 0 10px #ff00ff; transform: scale(1); } to { text-shadow: 0 0 30px #ff00ff; transform: scale(1.05); } }
+        button { padding: 14px 30px; font-size: 18px; margin: 8px; border: none; border-radius: 50px; cursor: pointer; font-weight: bold; transition: 0.3s; width: 90%; }
+        .btn-option { background: white; color: black; border: 2px solid #e04dd0; }
+        #yes-final { background: #e04dd0; color: white; box-shadow: 0 0 15px #e04dd0; }
+        #no-move { background: white; color: #e04dd0; position: relative; }
+        p { font-size: 18px; line-height: 1.6; color: #fff; }
+        h2 { color: #ffeb3b; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+
+    <audio id="myMusic" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" type="audio/mpeg">
+    </audio>
+
+    <div id="quiz-box">
+        <h2 id="question-num">Task 1</h2>
+        <p id="question-text">Loading...</p>
+        <div id="options-container"></div>
+    </div>
+
+    <div id="proposal-box">
+        <h1 class="glow">Prachi ❤️</h1>
+        <p>Aakhir tumne prove kar diya ki tum mujhe kitna jaanti ho! 😘<br><br><b>Prachi, kya tum hamesha mere saath rahogi? 💖</b></p>
+        <div class="buttons">
+            <button id="yes-final" onclick="celebrate()">Yes, Hamesha! ❤️</button>
+            <button id="no-move" onmouseover="moveButton()">Nahi Ji 😜</button>
+        </div>
+    </div>
+
+    <script>
+        for(let i=0; i<150; i++){
+            let star = document.createElement("div");
+            star.className = "star";
+            star.style.top = Math.random() * 100 + "vh";
+            star.style.left = Math.random() * 100 + "vw";
+            document.body.appendChild(star);
+        }
+
+        const questions = [
+            { q: "Kya tum mera kapda jindagi bhar dhulogi? 🧼", options: ["Yes, kyun nahi ❤️", "No, servant rakh lo 🤨"], answer: 0, errorMsg: "Arey! Pyar kam ho gaya kya? 'Yes' dabo! 😂" },
+            { q: "Mera sabse favourite colour kya hai? 🎨", options: ["Blue", "Black", "Green", "Red"], answer: 1, errorMsg: "Galat! Black mera favourite hai, yaad rakho! 🤦‍♂️" },
+            { q: "Mera Birthday kis date ko aata hai? 🎂", options: ["Date 2", "Date 5", "Date 12", "Date 20"], answer: 1, errorMsg: "Ye bhi bhool gayi? Ab toh katti! 📸🤣" }
+        ];
+
+        let currentQuestion = 0;
+        window.onload = function() {
+            let pass = prompt("Enter Secret Love Password 💕");
+            if(pass === "shivamprachi") { // Iska password alag rakha hai
+                document.getElementById("quiz-box").style.display = "block";
+                loadQuestion();
+                document.body.addEventListener('click', () => { document.getElementById("myMusic").play(); }, { once: true });
+            } else { document.body.innerHTML = "<h1>Wrong Password! 😜</h1>"; }
+        };
+
+        function loadQuestion() {
+            const qData = questions[currentQuestion];
+            document.getElementById("question-num").innerText = "Sawal No. " + (currentQuestion + 1);
+            document.getElementById("question-text").innerText = qData.q;
+            const container = document.getElementById("options-container");
+            container.innerHTML = "";
+            qData.options.forEach((opt, index) => {
+                let btn = document.createElement("button");
+                btn.className = "btn-option";
+                btn.innerText = opt;
+                btn.onclick = () => checkAnswer(index);
+                container.appendChild(btn);
+            });
+        }
+
+        function checkAnswer(index) {
+            if(index === questions[currentQuestion].answer) {
+                currentQuestion++;
+                if(currentQuestion < questions.length) { loadQuestion(); }
+                else { document.getElementById("quiz-box").style.display = "none"; document.getElementById("proposal-box").style.display = "block"; }
+            } else { alert(questions[currentQuestion].errorMsg); }
+        }
+
+        function moveButton() {
+            let btn = document.getElementById("no-move");
+            btn.style.position = "absolute";
+            btn.style.left = Math.random() * (window.innerWidth - 100) + "px";
+            btn.style.top = Math.random() * (window.innerHeight - 50) + "px";
+            btn.innerText = "Mana mat karo! 😜";
+        }
+
+        function celebrate() {
+            alert("Prachi Said YES! 💍❤️ Forever Shivam & Prachi 🎇");
+            for(let i=0; i<100; i++) {
+                let heart = document.createElement("div");
+                heart.innerHTML = "💖";
+                heart.style.position = "absolute";
+                heart.style.left = Math.random() * 100 + "vw";
+                heart.style.top = Math.random() * 100 + "vh";
+                heart.style.fontSize = "25px";
+                document.body.appendChild(heart);
+                setTimeout(() => heart.remove(), 3000);
+            }
+        }
+    </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prachi ❤️ Love Quiz</title>
+    <style>
+        body { margin: 0; padding: 0; text-align: center; font-family: 'Arial', sans-serif; background: black; color: white; overflow: hidden; height: 100vh; display: flex; align-items: center; justify-content: center; }
+        .star { position: absolute; width: 2px; height: 2px; background: white; border-radius: 50%; animation: twinkle 2s infinite alternate; }
+        @keyframes twinkle { from { opacity: 0.2; } to { opacity: 1; } }
+        #quiz-box, #proposal-box { display: none; position: relative; z-index: 10; padding: 25px; background: rgba(30, 0, 40, 0.7); border-radius: 20px; backdrop-filter: blur(10px); border: 2px solid #e04dd0; width: 85%; max-width: 400px; box-shadow: 0 0 30px rgba(224, 77, 208, 0.4); }
+        .glow { font-size: 45px; color: #ff00ff; text-shadow: 0 0 10px #ff00ff; animation: glow-anim 1.5s infinite alternate; }
+        @keyframes glow-anim { from { text-shadow: 0 0 10px #ff00ff; transform: scale(1); } to { text-shadow: 0 0 30px #ff00ff; transform: scale(1.05); } }
+        button { padding: 14px 30px; font-size: 18px; margin: 8px; border: none; border-radius: 50px; cursor: pointer; font-weight: bold; transition: 0.3s; width: 90%; }
+        .btn-option { background: white; color: black; border: 2px solid #e04dd0; }
+        #yes-final { background: #e04dd0; color: white; box-shadow: 0 0 15px #e04dd0; }
+        #no-move { background: white; color: #e04dd0; position: relative; }
+        p { font-size: 18px; line-height: 1.6; color: #fff; }
+        h2 { color: #ffeb3b; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+
+    <audio id="myMusic" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" type="audio/mpeg">
+    </audio>
+
+    <div id="quiz-box">
+        <h2 id="question-num">Task 1</h2>
+        <p id="question-text">Loading...</p>
+        <div id="options-container"></div>
+    </div>
+
+    <div id="proposal-box">
+        <h1 class="glow">Prachi ❤️</h1>
+        <p>Aakhir tumne prove kar diya ki tum mujhe kitna jaanti ho! 😘<br><br><b>Prachi, kya tum hamesha mere saath rahogi? 💖</b></p>
+        <div class="buttons">
+            <button id="yes-final" onclick="celebrate()">Yes, Hamesha! ❤️</button>
+            <button id="no-move" onmouseover="moveButton()">Nahi Ji 😜</button>
+        </div>
+    </div>
+
+    <script>
+        for(let i=0; i<150; i++){
+            let star = document.createElement("div");
+            star.className = "star";
+            star.style.top = Math.random() * 100 + "vh";
+            star.style.left = Math.random() * 100 + "vw";
+            document.body.appendChild(star);
+        }
+
+        const questions = [
+            { q: "Kya tum mera kapda jindagi bhar dhulogi? 🧼", options: ["Yes, kyun nahi ❤️", "No, servant rakh lo 🤨"], answer: 0, errorMsg: "Arey! Pyar kam ho gaya kya? 'Yes' dabo! 😂" },
+            { q: "Mera sabse favourite colour kya hai? 🎨", options: ["Blue", "Black", "Green", "Red"], answer: 1, errorMsg: "Galat! Black mera favourite hai, yaad rakho! 🤦‍♂️" },
+            { q: "Mera Birthday kis date ko aata hai? 🎂", options: ["Date 2", "Date 5", "Date 12", "Date 20"], answer: 1, errorMsg: "Ye bhi bhool gayi? Ab toh katti! 📸🤣" }
+        ];
+
+        let currentQuestion = 0;
+        window.onload = function() {
+            let pass = prompt("Enter Secret Love Password 💕");
+            if(pass === "shivamprachi") { // Iska password alag rakha hai
+                document.getElementById("quiz-box").style.display = "block";
+                loadQuestion();
+                document.body.addEventListener('click', () => { document.getElementById("myMusic").play(); }, { once: true });
+            } else { document.body.innerHTML = "<h1>Wrong Password! 😜</h1>"; }
+        };
+
+        function loadQuestion() {
+            const qData = questions[currentQuestion];
+            document.getElementById("question-num").innerText = "Sawal No. " + (currentQuestion + 1);
+            document.getElementById("question-text").innerText = qData.q;
+            const container = document.getElementById("options-container");
+            container.innerHTML = "";
+            qData.options.forEach((opt, index) => {
+                let btn = document.createElement("button");
+                btn.className = "btn-option";
+                btn.innerText = opt;
+                btn.onclick = () => checkAnswer(index);
+                container.appendChild(btn);
+            });
+        }
+
+        function checkAnswer(index) {
+            if(index === questions[currentQuestion].answer) {
+                currentQuestion++;
+                if(currentQuestion < questions.length) { loadQuestion(); }
+                else { document.getElementById("quiz-box").style.display = "none"; document.getElementById("proposal-box").style.display = "block"; }
+            } else { alert(questions[currentQuestion].errorMsg); }
+        }
+
+        function moveButton() {
+            let btn = document.getElementById("no-move");
+            btn.style.position = "absolute";
+            btn.style.left = Math.random() * (window.innerWidth - 100) + "px";
+            btn.style.top = Math.random() * (window.innerHeight - 50) + "px";
+            btn.innerText = "Mana mat karo! 😜";
+        }
+
+        function celebrate() {
+            alert("Prachi Said YES! 💍❤️ Forever Shivam & Prachi 🎇");
+            for(let i=0; i<100; i++) {
+                let heart = document.createElement("div");
+                heart.innerHTML = "💖";
+                heart.style.position = "absolute";
+                heart.style.left = Math.random() * 100 + "vw";
+                heart.style.top = Math.random() * 100 + "vh";
+                heart.style.fontSize = "25px";
+                document.body.appendChild(heart);
+                setTimeout(() => heart.remove(), 3000);
+            }
+        }
+    </script>
+</body>
+</html>
